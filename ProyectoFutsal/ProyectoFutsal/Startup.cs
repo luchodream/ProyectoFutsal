@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using ProyectoFutsal.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Core.Abstract;
+using Core.Concrete;
 
 namespace ProyectoFutsal
 {
@@ -41,6 +43,9 @@ namespace ProyectoFutsal
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Add application services.
+            services.AddTransient<IJugador, JugadorManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
