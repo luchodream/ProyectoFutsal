@@ -1,0 +1,14 @@
+Nombre Placa Madre: Biostar - G31-M7 TE Versión 6.4/6.5
+Zócalos : 775
+
+Socket LGA 775
+Supports Intel Core 2 Quad/Core 2 Duo/Pentium D/Pentium 4/Celeron Dual Core/Celeron 400 Series Processor
+Supports FSB 533/800/1066/1333/1600(OC)MHz
+Support Intel Hyper-Threading Technology
+Supports BIO-Remote 2 Technology
+Supports Charger Booster Technology
+
+
+Lo importante:
+Tiene Socket 775
+Los Slots de Memoria son DDR2

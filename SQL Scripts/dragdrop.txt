@@ -1,0 +1,158 @@
+Public Class ElegirJugadoresEquipos
+    Public Property _entidad As String
+    Public Property _idEntidad As Integer
+    Private Property _gridOrigen As String
+
+    Private Sub ElegirJugadoresEquipo_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        Me.Dispose()
+    End Sub
+
+    Private Sub ElegirJugadoresEquipo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        actualizarLibres()
+        Select Case _entidad
+            Case "Equipo"
+                lblElegidos.Text = "Jugadores agregados al equipo"
+                'gridElegidos.DataSource = New Equipos().getJugadores(_idEntidad)
+            Case "Torneo"
+                lblElegidos.Text = "Equipos agregados al torneo"
+                'gridElegidos.DataSource = New Torneos().getEquipos(_idEntidad)
+        End Select
+        'gridElegidos.Columns.Item("Id").Visible = False
+    End Sub
+
+    Private Sub btnCancelar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancelar.Click
+        Me.Dispose()
+    End Sub
+
+    Private Sub gridLibres_CellMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles gridLibres.CellMouseDown
+        For Each row As DataGridViewRow In gridLibres.SelectedRows
+            row.Selected = False
+        Next
+        gridLibres.Rows.Item(e.RowIndex).Selected = True
+        _gridOrigen = "Libres"
+        gridLibres.DoDragDrop(gridLibres.Rows.Item(e.RowIndex), DragDropEffects.Move)
+    End Sub
+
+    Private Sub gridElegidos_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles gridElegidos.DragDrop
+        If _gridOrigen = "Libres" Then
+            agregarEntidad(e.Data.GetData(GetType(DataGridViewRow)))
+            _gridOrigen = String.Empty
+        End If
+    End Sub
+
+    Private Sub gridElegidos_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles gridElegidos.DragEnter
+        e.Effect = DragDropEffects.Move
+        Dim data = e.Data.GetDataPresent(GetType(DataGridViewRow))
+    End Sub
+
+    Private Sub gridElegidos_CellMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles gridElegidos.CellMouseDown
+        For Each row As DataGridViewRow In gridElegidos.SelectedRows
+            row.Selected = False
+        Next
+        gridElegidos.Rows.Item(e.RowIndex).Selected = True
+        _gridOrigen = "Elegidos"
+        gridElegidos.DoDragDrop(gridElegidos.Rows.Item(e.RowIndex), DragDropEffects.Move)
+    End Sub
+
+    Private Sub gridLibres_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles gridLibres.DragDrop
+        If _gridOrigen = "Elegidos" Then
+            quitarEntidad(e.Data.GetData(GetType(DataGridViewRow)))
+            _gridOrigen = String.Empty
+        End If
+    End Sub
+
+    Private Sub gridLibres_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles gridLibres.DragEnter
+        e.Effect = DragDropEffects.Move
+        Dim data = e.Data.GetDataPresent(GetType(DataGridViewRow))
+    End Sub
+
+    Private Sub txtFiltroNombre_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtFiltro.TextChanged
+        Dim where As String = txtFiltro.Text.Trim()
+        Select Case _entidad
+            Case "Equipo"
+                gridLibres.DataSource = New Jugadores().getJugadoresActivos(where)
+            Case "Torneo"
+                gridLibres.DataSource = New Equipos().getEquiposActivos(where)
+        End Select
+        actualizarLibres()
+    End Sub
+
+    Public Sub agregarEntidad(ByVal rowEntidad As DataGridViewRow)
+        If gridElegidos.Columns.Count = 0 Then
+            For Each columna As DataGridViewColumn In gridLibres.Columns
+                gridElegidos.Columns.Add(columna.Name, columna.HeaderText)
+            Next
+            gridElegidos.Columns.Item("Id").Visible = False
+        End If
+        Dim row As DataGridViewRow = rowEntidad
+        If _entidad = "Torneo" Then
+            If gridElegidos.Rows.Count = 20 Then
+                MessageBox.Show("La cantidad máxima de equipos permitida es 20", "Cantidad máxima alcanzada", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            Else
+                gridElegidos.Rows.Add(row.Cells(0).Value, row.Cells(1).Value, row.Cells(2).Value)
+            End If
+        Else
+            If gridElegidos.Rows.Count = 15 Then
+                MessageBox.Show("La cantidad máxima de jugadores permitida es 15", "Cantidad máxima alcanzada", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            Else
+                gridElegidos.Rows.Add(row.Cells(0).Value, row.Cells(1).Value, row.Cells(2).Value, row.Cells(3).Value)
+            End If
+        End If
+        actualizarLibres()
+    End Sub
+
+    Public Sub quitarEntidad(ByVal rowEntidad As DataGridViewRow)
+        Dim row As DataGridViewRow = rowEntidad
+        gridElegidos.Rows.Remove(rowEntidad)
+        actualizarLibres()
+    End Sub
+
+    Public Sub actualizarLibres()
+        Select Case _entidad
+            Case "Equipo"
+                If String.IsNullOrEmpty(txtFiltro.Text.Trim()) Then
+                    gridLibres.DataSource = New Jugadores().getJugadoresActivos()
+                Else
+                    gridLibres.DataSource = New Jugadores().getJugadoresActivos(txtFiltro.Text.Trim())
+                End If
+
+            Case "Torneo"
+                If String.IsNullOrEmpty(txtFiltro.Text.Trim()) Then
+                    gridLibres.DataSource = New Equipos().getEquiposActivos()
+                Else
+                    gridLibres.DataSource = New Equipos().getEquiposActivos(txtFiltro.Text.Trim())
+                End If
+        End Select
+
+        For Each rowElegidos As DataGridViewRow In gridElegidos.Rows
+            For Each rowLibres As DataGridViewRow In gridLibres.Rows
+                If rowLibres.Cells(0).Value = rowElegidos.Cells(0).Value Then
+                    gridLibres.Rows.Remove(rowLibres)
+                End If
+            Next
+        Next
+        gridLibres.Columns.Item("Id").Visible = False
+    End Sub
+
+    Private Sub btnAgregar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregar.Click
+        If gridLibres.SelectedRows.Count > 0 Then
+            agregarEntidad(gridLibres.SelectedRows.Item(0))
+            actualizarLibres()
+        End If
+    End Sub
+
+    Private Sub btnQuitar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnQuitar.Click
+        If gridElegidos.SelectedRows.Count > 0 Then
+            gridElegidos.Rows.Remove(gridElegidos.SelectedRows.Item(0))
+            actualizarLibres()
+        End If
+    End Sub
+
+    Private Sub gridLibres_CellDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles gridLibres.CellDoubleClick
+        agregarEntidad(gridLibres.Rows.Item(e.RowIndex))
+    End Sub
+
+    Private Sub gridElegidos_CellDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles gridElegidos.CellDoubleClick
+        quitarEntidad(gridElegidos.Rows.Item(e.RowIndex))
+    End Sub
+End Class
