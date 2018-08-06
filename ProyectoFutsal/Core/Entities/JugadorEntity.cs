@@ -6,7 +6,7 @@ using static Core.Infraestructure.EnumerationProvider;
 
 namespace Core.Entities
 {
-    public class Jugador
+    public class JugadorEntity
     {
         public string Nombre { get; set; }
         public string Apellido { get; set; }

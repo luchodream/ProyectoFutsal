@@ -21,13 +21,23 @@ namespace ProyectoFutsal.Controllers
 
         public IActionResult Index()
         {
-            var jug = _jugadorManager.GetByName("test");
+            var query = _jugadorManager.Get();
 
-            jug.PieHabil = EnumerationProvider.PieHabil.Derecho;
+            var model = (from jg in query
+                         select new JugadorViewModel
+                         {
+                             Apellido = jg.Apellido,
+                             Nombre = jg.Nombre,
+                             PieHabil = jg.PieHabil,
+                             Dni = jg.Dni,
+                             FechaNacimiento = jg.FechaNacimiento,
+                             Direccion = jg.Direccion,
+                             Telefono = jg.Telefono,
+                             TelefonoEmergencia = jg.TelefonoEmergencia,
+                             FechaAfiliacion = jg.FechaAfiliacion
+                         });
 
-            var pie = jug.PieHabil.ToString();
-
-            return View();
+            return View(model);
         }
 
         public IActionResult About()

@@ -8,9 +8,26 @@ namespace Core.Concrete
 {
     public class JugadorManager : IJugador
     {
-        public Jugador GetByName(string name)
+        public List<JugadorEntity> Get()
         {
-            return new Jugador();
+            var result = new List<JugadorEntity>();
+
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return result;
+        }
+
+        public JugadorEntity GetById(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
