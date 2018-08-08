@@ -9,7 +9,8 @@ namespace Core.Infraestructure
         public enum PieHabil
         {
             Derecho,
-            Izquierdo
+            Izquierdo,
+            Ambidiestro
         }
     }
 }

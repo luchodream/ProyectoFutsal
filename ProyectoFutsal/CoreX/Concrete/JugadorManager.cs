@@ -27,6 +27,7 @@ namespace Core.Concrete
                 var query = (from jg in _context.Jugador
                              select new JugadorEntity
                              {
+                                 Id = jg.Id,
                                  Apellido = jg.Apellidos,
                                  Nombre = jg.Nombres,
                                  PieHabil = (jg.IdPieHabil.Equals(1) ? EnumerationProvider.PieHabil.Izquierdo : EnumerationProvider.PieHabil.Derecho),
@@ -61,9 +62,10 @@ namespace Core.Concrete
                              where jg.Id.Equals(id)
                              select new JugadorEntity
                              {
+                                 Id = jg.Id,
                                  Apellido = jg.Apellidos,
                                  Nombre = jg.Nombres,
-                                 PieHabil = (jg.IdPieHabil.Equals(1) ? EnumerationProvider.PieHabil.Izquierdo : EnumerationProvider.PieHabil.Derecho),
+                                 PieHabil = ((EnumerationProvider.PieHabil)jg.IdPieHabil),
                                  Dni = jg.Dni,
                                  FechaNacimiento = jg.FechaNacimiento,
                                  Direccion = jg.Direccion,

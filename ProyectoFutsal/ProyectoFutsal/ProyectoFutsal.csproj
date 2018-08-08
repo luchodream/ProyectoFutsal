@@ -16,4 +16,8 @@
     <ProjectReference Include="..\CoreX\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Services\" />
+  </ItemGroup>
+
 </Project>

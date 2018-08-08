@@ -48,6 +48,7 @@ namespace ProyectoFutsal
 
             // Add application services.
             services.AddTransient<IJugador, JugadorManager>();
+            services.AddTransient<ITorneo, TorneoManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
