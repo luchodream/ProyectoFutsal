@@ -39,7 +39,7 @@ namespace ProyectoFutsal
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var connection = @"Server=ARGDST0004;Database=DataFutsal;Trusted_Connection=True;";
+            var connection = @"Server=LAPTOP-ECGBTDDJ;Database=DataFutsal;Trusted_Connection=True;";
             services.AddDbContext<DataFutsalContext>(options => options.UseSqlServer(connection));
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connection));
@@ -49,6 +49,7 @@ namespace ProyectoFutsal
             // Add application services.
             services.AddTransient<IJugador, JugadorManager>();
             services.AddTransient<ITorneo, TorneoManager>();
+            services.AddTransient<IPartido, PartidoManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

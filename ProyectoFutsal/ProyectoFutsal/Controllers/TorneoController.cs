@@ -55,5 +55,7 @@ namespace ProyectoFutsal.Controllers
 
             return View(model);
         }
+
+
     }
 }

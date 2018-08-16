@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ProyectoFutsal.Models.PartidoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Add">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdTorneo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ronda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Llave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaNumero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEquipoLocal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEquipoVisitante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Jugado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaJugado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GolesLocal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GolesVisitante)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdTorneo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ronda)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Llave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaNumero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEquipoLocal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEquipoVisitante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Jugado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaJugado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GolesLocal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GolesVisitante)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Modify", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Detail", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
