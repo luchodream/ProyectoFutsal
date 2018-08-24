@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProyectoFutsal", "ProyectoF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{B1788F88-15E1-4A1F-9273-7B7C51689D88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "CoreX\Core.csproj", "{1C529C09-A2C9-4461-A404-893BF1E394C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "CoreX\Core.csproj", "{1C529C09-A2C9-4461-A404-893BF1E394C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
