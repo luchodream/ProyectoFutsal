@@ -1,39 +1,42 @@
-﻿/**
- * Metodo que permite verificar que
- * un ID devuelve un elemento
- * @param  {string}
- * @return  {boolean}
- */
-$.fn.exists = function () {
-    return this.length !== 0;
-}
-var templateController = new TemplateController();
+﻿var partidoController = new PartidoController();
 
-
-function TemplateController() {
-
+function PartidoController() {
     //PROPIEDADES
     var self = this;
-
-    self.Message = "";
-    self.Result = "";
+    self.FormIsValid = false;
 
     //VISTA
     self.view = {
-        maxi: document.getElementById("hola")
+        form: {
+            Id: $("#Id"),
+            IdTorneo: $("#IdTorneo"),
+            Ronda: $("#Ronda"),
+            Fase: $("#Fase"),
+            Llave: $("#Llave"),
+            FechaNumero: $("#FechaNumero"),
+            IdEquipoLocal: $("#IdEquipoLocal"),
+            IdEquipoVisitante: $("#IdEquipoVisitante"),
+            Jugado: $("#Jugado"),
+            FechaJugado: $("#FechaJugado"),
+            GolesLocal: $("#GolesLocal"),
+            GolesVisitante: $("#GolesVisitante")
+        },
+        formElement: $("#partidoFormId")
     }
 
     //EVENTOS
     self.events = {
-
         ready: function () {
-
+            self.view.formElement.submit(function (e) {
+                e.preventDefault(e);
+                self.events.validation();
+            });
         },
 
         //Valida y envia el formulario
-        pregunta: function () {
-            self.methods.metodoUno();
-            self.methods.metodoDos();
+        validation: function () {
+            self.methods.validateForm();
+            self.methods.sendForm();
         }
     }
 
@@ -41,18 +44,24 @@ function TemplateController() {
     self.methods = {
 
         // Valida los datos.
-        metodoUno: function () {
-            self.Result = confirm("Maisi es gay?");
-            if (self.Result == true) {
-                self.Message = "Si es re gay";
-            } else {
-                self.Message = "No.. es supergay!";
+        validateForm: function () {
+            self.FormIsValid = true;
+            for (var i in self.view.form) {
+                if (!self.view.form[i].val()) {
+                    self.FormIsValid = false;
+                    break;
+                }
             }
         },
 
         // Envia el formulario.
-        metodoDos: function () {
-            alert(self.Message);
+        sendForm: function () {
+            if (self.FormIsValid) {
+                self.view.formElement.submit();
+            }
+            else {
+                alert("Formulario Erroneo");
+            }
         },
 
         // Envia el formulario AJAX.
